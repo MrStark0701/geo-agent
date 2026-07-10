@@ -1,0 +1,38 @@
+This project's engine/ check logic was built by referencing and, in several files, closely
+porting code from Auriti-Labs/geo-optimizer-skill (MIT license, Copyright (c) 2026
+Juan Camilo Auriti — https://github.com/Auriti-Labs/geo-optimizer-skill). See
+THIRD_PARTY_LICENSES/geo-optimizer-skill-LICENSE for the full upstream license text.
+
+Close ports (logic, thresholds, and control flow ported near-verbatim, rewritten as our own
+module layout with no composite score and an added `n/a` status):
+
+- engine/checks/robots.py       - RFC 9309 parser and bot classification, from
+                                   utils/robots_parser.py and core/audit_robots.py
+- engine/checks/llms_txt.py     - from core/audit_llms.py
+- engine/checks/schema.py       - JSON-LD extraction/validation, from core/audit_schema.py
+- engine/checks/meta.py         - from core/audit_meta.py
+- engine/checks/content.py      - content-quality logic (question-shaped-heading detection is
+                                   NEW, not in the upstream), from core/audit_content.py
+- engine/checks/signals.py      - from core/audit_signals.py
+- engine/checks/ai_discovery.py - from core/audit_ai_discovery.py
+- engine/checks/negative_signals.py - from core/audit_negative.py
+- engine/checks/brand_entity.py - from core/audit_brand.py
+- engine/checks/injection.py    - all 8 cloaking/prompt-injection detection categories, from
+                                   core/injection_detector.py
+- engine/shared.py              - trimmed AI_BOTS/CITATION_BOTS registry and threshold
+                                   constants, from models/config.py; flatten_graph() and
+                                   normalize_brand_name() from core/audit_brand.py
+
+Original to this project (no upstream equivalent):
+- engine/http_client.py    - fetch layer with timeout/retry/size-cap/URL-scheme hardening
+- engine/orchestrator.py   - two-input-mode (URL / local-file) sequencing
+- engine/cli.py            - entrypoint, --self-test
+- engine/models.py         - no-score, 4-value-status (pass/partial/fail/n/a) result shape
+- The question-shaped-heading check inside engine/checks/content.py
+- agents/GeoAgent.md
+- install.sh
+
+Deliberately NOT ported (see GEO-Agent-Plan.md and the approved build plan for the full list):
+composite scoring, the CheckRegistry plugin system, the async httpx twin, citability.py,
+trust_stack.py, sentiment/monitor/history/snapshots/drift/competitive-narrative/
+hallucination-bait, CI formatters, the web frontend, Docker, audit_cdn.py, audit_js.py.
