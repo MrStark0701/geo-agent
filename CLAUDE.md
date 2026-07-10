@@ -1,5 +1,24 @@
 # geo-agent — Project Instructions
 
+## Install model (2026-07-10, LATEST — supersedes any earlier "global install" framing below)
+
+**Project-scoped, not global.** Running the installer (`bootstrap.sh` or `install.sh`) writes
+into `$(pwd)/.claude/` — the directory the user is IN at install time — not `$HOME/.claude/`.
+Each project gets its own fully self-contained copy: own `.claude/agents/GeoAgent.md`, own
+`.claude/geo-agent/` (own venv, own engine copy, no shared state with other projects). Re-running
+the installer in a different project directory installs a separate, independent copy there.
+`GeoAgent.md`'s Bash instructions reference the engine via a project-relative path
+(`.claude/geo-agent/geo-audit`), not an absolute `~/.claude/...` path.
+
+**Real bug this surfaced and fixed:** the `geo-audit` wrapper script originally relied on
+`python3 -m engine.cli` finding the `engine` package via the caller's cwd — worked by accident
+in testing (always run from inside the source checkout, which itself contains `engine/`), broke
+for a genuine project directory (`ModuleNotFoundError`). Fixed with `PYTHONPATH` in the wrapper
+script, NOT `cd` — `cd`-ing into the install dir first would have silently broken relative
+`--file` paths in local-file mode (they'd resolve against the wrong directory). Verified with a
+real live `curl | bash` test from a throwaway project dir: correct `.claude/` layout, self-test
+passes, a real audit against pilotdeck.co returns 11 checks with no score field.
+
 ## What this project is
 
 **Goal:** audit ANY website and assess its GEO (Generative Engine Optimization) — its visibility
