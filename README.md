@@ -17,23 +17,14 @@ curl -fsSL https://raw.githubusercontent.com/MrStark0701/geo-agent/main/bootstra
 True single command: downloads a GitHub archive of `main` via `curl`+`tar`, then runs
 `install.sh`. Only needs `curl`, `tar`, and `python3` — no git install, no manual clone step.
 
-**Anyone with git, or if you'd rather inspect the source first:**
+**If you'd rather use git, or want to inspect the source first:**
 ```bash
 git clone https://github.com/MrStark0701/geo-agent.git && bash geo-agent/install.sh
 ```
 
-**AveoSoft internal (same content, private instance):**
-```bash
-git clone https://gitlab.aveosoft.com/TejasChauhan/geo-agent.git && bash geo-agent/install.sh
-```
-`gitlab.aveosoft.com` is login-gated, so a bare `curl | bash` can't authenticate there — this
-one needs `git clone` (using whatever git credential you already have for that host) rather than
-the archive-download approach. Use the public GitHub install above unless you specifically need
-this internal one.
-
-All three paths converge on the same `install.sh`, which is remote-agnostic — it reads
-`engine/`, `agents/GeoAgent.md`, and `requirements.txt` from whatever directory it's sitting in,
-regardless of whether that directory came from `git clone` or a `curl`+`tar` extraction.
+Both paths converge on the same `install.sh`, which reads `engine/`, `agents/GeoAgent.md`, and
+`requirements.txt` from whatever directory it's sitting in — it doesn't care whether that
+directory came from `git clone` or a `curl`+`tar` extraction.
 
 This creates an isolated virtualenv at `~/.claude/geo-agent/`, installs the two dependencies
 (`requests`, `beautifulsoup4`), and copies `GeoAgent.md` into `~/.claude/agents/`. No manual

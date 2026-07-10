@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Remote-agnostic by design: this script reads engine/, agents/GeoAgent.md, and requirements.txt
-# from ITS OWN checkout directory rather than re-cloning from a hardcoded remote URL. That means
-# the exact same script works whether the user cloned from the internal, login-gated GitLab
-# instance or the public GitHub mirror - no "which remote am I on" logic needed, and no second
-# network fetch for source that's already sitting right next to this script.
+# Reads engine/, agents/GeoAgent.md, and requirements.txt from ITS OWN checkout directory rather
+# than re-fetching from a hardcoded remote URL - works the same whether it got here via
+# `git clone` or bootstrap.sh's curl+tar extraction, no second network fetch needed.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 INSTALL_DIR="$HOME/.claude/geo-agent"
 VENV_DIR="$INSTALL_DIR/.venv"

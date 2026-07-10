@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# True single-command installer for users who don't have (or don't want to use) git - only
-# works against the PUBLIC GitHub mirror, since it needs anonymous curl access to an archive
-# tarball. gitlab.aveosoft.com is login-gated and cannot serve this; internal users should
-# `git clone` + run install.sh directly (see README.md) instead of this script.
+# True single-command installer for users who don't have (or don't want to use) git.
 #
 # Usage:
 #   curl -fsSL https://raw.githubusercontent.com/MrStark0701/geo-agent/main/bootstrap.sh | bash

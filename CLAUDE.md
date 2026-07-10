@@ -16,6 +16,16 @@ This is an **ownership** goal, not an adopt goal. Existing MIT-licensed tools ar
 to fork-and-improve or reimplement from — not the final deliverable. `GEO-Agent-Plan.md` holds the
 original design; the audit rubric there is our starting spec.
 
+## Hosting scope (2026-07-10, LATEST — supersedes earlier GitLab-focused notes below)
+
+**GitHub only, going forward.** `https://github.com/MrStark0701/geo-agent` is the sole active
+target. GitLab (`gitlab.aveosoft.com/TejasChauhan/geo-agent`) was pushed earlier the same
+session (content is there, working, up to date as of the last dual-push) but is explicitly
+DE-SCOPED per user instruction — don't push new work there, don't reference it in README/install
+docs going forward. The sections below narrate the full GitLab saga (why it was chosen, the
+login-gate problem, the mirror decision) — kept as history/context, not as active instructions.
+Install docs (`README.md`) now show only the GitHub `curl`/`git clone` paths.
+
 ## Status
 
 **BUILD COMPLETE (2026-07-10), locally. Not yet published.** Agent + engine fully implemented,
