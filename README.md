@@ -10,25 +10,32 @@ with a one-line reason and a concrete fix.
 
 ## Install
 
-**Anyone — no git required:**
+**Project-scoped: run this from inside the project you want the agent in.** Each project gets
+its own self-contained copy — own venv, own engine, no shared global state with other projects.
+
 ```bash
+cd ~/your-project
 curl -fsSL https://raw.githubusercontent.com/MrStark0701/geo-agent/main/bootstrap.sh | bash
 ```
-True single command: downloads a GitHub archive of `main` via `curl`+`tar`, then runs
-`install.sh`. Only needs `curl`, `tar`, and `python3` — no git install, no manual clone step.
+True single command: downloads a GitHub archive of `main` via `curl`+`tar` into a tmp dir, then
+runs `install.sh` from there. Only needs `curl`, `tar`, and `python3` — no git required.
 
 **If you'd rather use git, or want to inspect the source first:**
 ```bash
-git clone https://github.com/MrStark0701/geo-agent.git && bash geo-agent/install.sh
+cd ~/your-project
+git clone https://github.com/MrStark0701/geo-agent.git /tmp/geo-agent-src && bash /tmp/geo-agent-src/install.sh
 ```
 
-Both paths converge on the same `install.sh`, which reads `engine/`, `agents/GeoAgent.md`, and
-`requirements.txt` from whatever directory it's sitting in — it doesn't care whether that
-directory came from `git clone` or a `curl`+`tar` extraction.
+Both paths write into **the directory you ran the command from** (`$(pwd)` at install time, not
+wherever the source came from): `./.claude/agents/GeoAgent.md` (Claude Code auto-discovers
+project-scoped agents here — check it into your project's own repo if your team wants to share
+it) and `./.claude/geo-agent/` (its own isolated virtualenv + engine, `requests`+`beautifulsoup4`
+installed only there). Run the installer again in a different project directory to install a
+separate, independent copy there.
 
-This creates an isolated virtualenv at `~/.claude/geo-agent/`, installs the two dependencies
-(`requests`, `beautifulsoup4`), and copies `GeoAgent.md` into `~/.claude/agents/`. No manual
-activation or path setup needed.
+Caveat worth knowing: the venv is not guaranteed portable if you later move/rename the project
+directory (Python venvs can embed absolute paths) — if that happens, just re-run the installer
+from the new location rather than expecting a copied `.venv/` to keep working.
 
 ## Use
 
@@ -38,9 +45,10 @@ reports a per-check table.
 
 ## Manual engine use (no Claude Code required)
 
+Run from the project root you installed into:
 ```bash
-~/.claude/geo-agent/geo-audit https://example.com
-~/.claude/geo-agent/geo-audit --file path/to/local.html
+.claude/geo-agent/geo-audit https://example.com
+.claude/geo-agent/geo-audit --file path/to/local.html
 ```
 
 Prints one JSON object: fetch metadata plus a `checks` array

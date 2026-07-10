@@ -33,11 +33,18 @@ additionally draft rewritten copy (default: report only).
 
 ## Running the engine
 
+This agent is project-scoped: it was installed into THIS project's `.claude/`, alongside its own
+self-contained engine (own venv, no shared global state with other projects). Run it relative to
+the project root:
+
 ```bash
-~/.claude/geo-agent/geo-audit <url>
+.claude/geo-agent/geo-audit <url>
 # or, for a local file:
-~/.claude/geo-agent/geo-audit --file <path>
+.claude/geo-agent/geo-audit --file <path>
 ```
+
+If your Bash working directory isn't the project root for some reason, resolve the absolute path
+first (e.g. `git rev-parse --show-toplevel` in a git repo) rather than guessing.
 
 This prints exactly one JSON object to stdout: `url`, `http_status`, `timestamp`, `page_size`,
 `duration_ms`, and a `checks` array, each entry `{"check", "status", "reason", "fix"}` (some
