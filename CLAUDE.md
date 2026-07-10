@@ -123,6 +123,24 @@ reverted). **Lesson for next time: commit local edits to `main` BEFORE attemptin
 switch for a second remote, not after** — redid the install.sh/README.md edits from memory and
 committed immediately this time, avoiding a second uncommitted-changes-across-branch-switch.
 
+## BOTH remotes live and verified (2026-07-10) — done
+
+- **GitLab** (internal): `gitlab.aveosoft.com/TejasChauhan/geo-agent`, `main` @ `75a2225` (includes
+  the remote-agnostic install.sh fix).
+- **GitHub** (public mirror, for external users): `github.com/MrStark0701/geo-agent`, `main` @
+  `53f5310`, visibility confirmed `PUBLIC`.
+- **Verified with a genuinely anonymous clone** (`git -c credential.helper= clone ...` — credential
+  helper explicitly disabled, not just "happened not to prompt") + full install + a real audit run
+  through the installed wrapper against pilotdeck.co: 11 checks, no score field. This is what an
+  outside user with zero AveoSoft access actually experiences, tested for real, not assumed.
+- Install commands (README.md has both):
+  - Anyone: `git clone https://github.com/MrStark0701/geo-agent.git && bash geo-agent/install.sh`
+  - Internal: `git clone https://gitlab.aveosoft.com/TejasChauhan/geo-agent.git && bash geo-agent/install.sh`
+
+The GEO agent build is complete, pushed, and installable by anyone — internal or external. MCP,
+Firecrawl, and Perplexity-SoV work remain parked per the 2026-07-10 pivot; nothing else is
+blocking on this project right now.
+
 **Reference eval (2026-07-08):** installed `geo-optimizer-skill 4.15.0` in `.venv/`, confirmed its
 `geo-mcp` server serves 12 tools over stdio, and ran `geo audit` on pilotdeck.co (score 76/"good",
 1s). Findings: it is genuinely specific (not boilerplate), already distinguishes `OAI-SearchBot`
