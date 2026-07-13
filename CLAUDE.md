@@ -1,6 +1,25 @@
 # geo-agent — Project Instructions
 
-## Install model (2026-07-10, LATEST — supersedes any earlier "global install" framing below)
+## Single-file model (2026-07-13, LATEST — supersedes ALL engine/install narrative below)
+
+**The deliverable is ONE file: `agents/GeoAgent.md`.** The agent is fully self-contained — it
+performs every check itself via WebFetch/WebSearch/Read, with no bundled Python engine, no venv,
+no pip, no script to run. `install.sh` now just curls that single `.md` into a project's
+`.claude/agents/`.
+
+The old deterministic Python check-engine (`engine/`), `requirements.txt`, and the engine-era
+design doc `GEO-Agent-Plan.md` were **removed on 2026-07-13** (commit "Rebuild agent as a single
+self-contained file" made them dead weight). `NOTICE` + `THIRD_PARTY_LICENSES/` are KEPT — the
+agent's check rubric was still informed by geo-optimizer-skill (MIT), so attribution stands.
+
+Everything below this section narrates the earlier engine-based build (checks living in `engine/`,
+pip/venv installs, the two-copy agent). It is HISTORY, not current instructions — the engine no
+longer exists in the repo. Read it for context on how we got here, not for how the project works
+today.
+
+---
+
+## Install model (2026-07-10, supersedes any earlier "global install" framing below)
 
 **Project-scoped, not global.** Running the installer (`bootstrap.sh` or `install.sh`) writes
 into `$(pwd)/.claude/` — the directory the user is IN at install time — not `$HOME/.claude/`.
